@@ -1,0 +1,25 @@
+{
+  "name": "pizza-shop",
+  "module": "main.ts",
+  "type": "module",
+  "scripts": {
+    "dev": "bun --watch src/infra/http/server.ts",
+    "build": "bun build src/infra/http/server.ts",
+    "start": "bun src/infra/http/server.ts",
+    "test": "bun test",
+    "format": "bunx @biomejs/biome format --write ./src"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.6.4",
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "elysia": "^1.0.13",
+    "pino": "^8.20.0",
+    "pino-pretty": "^11.0.0",
+    "zod": "^3.22.4"
+  }
+}
