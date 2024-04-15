@@ -1,0 +1,27 @@
+{
+  "version": "5",
+  "dialect": "pg",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1713221284086,
+      "tag": "0000_gifted_vapor",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1713221604420,
+      "tag": "0001_broken_ken_ellis",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1713222940882,
+      "tag": "0002_dusty_payback",
+      "breakpoints": true
+    }
+  ]
+}
