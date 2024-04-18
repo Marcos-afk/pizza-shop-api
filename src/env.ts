@@ -20,6 +20,10 @@ const envSchema = z.object({
 			},
 		})
 		.default('development'),
+	DATABASE_URL: z
+		.string()
+		.min(1, { message: 'DATABASE_URL é obrigatória' })
+		.url({ message: 'DATABASE_URL deve ser uma URL válida' }),
 });
 
 const parsedEnv = envSchema.safeParse(process.env);

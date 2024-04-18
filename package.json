@@ -8,7 +8,8 @@
 		"start": "bun src/infra/http/server.ts",
 		"test": "bun test",
 		"format": "bunx @biomejs/biome format --write ./src",
-		"generate": "drizzle-kit generate:pg"
+		"generate": "drizzle-kit generate:pg",
+		"migrate": "bun src/infra/database/drizzle/migrate.ts"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.6.4",
