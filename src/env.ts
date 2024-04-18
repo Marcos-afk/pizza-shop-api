@@ -24,6 +24,7 @@ const envSchema = z.object({
 		.string()
 		.min(1, { message: 'DATABASE_URL é obrigatória' })
 		.url({ message: 'DATABASE_URL deve ser uma URL válida' }),
+	BASIC_SEED: z.string().min(1, { message: 'BASIC_SEED é obrigatória' }),
 });
 
 const parsedEnv = envSchema.safeParse(process.env);

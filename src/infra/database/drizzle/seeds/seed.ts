@@ -1,20 +1,19 @@
 import postgres from 'postgres';
 import { drizzle } from 'drizzle-orm/postgres-js';
-import { migrate } from 'drizzle-orm/postgres-js/migrator';
 import { env } from 'src/env';
 import { logsAdapter } from '@common/adapters/api-logs/logs.adapter';
+import { usersSeed } from './users/users.seed';
 
-const generateMigration = async () => {
+const runSeeds = async () => {
 	const connection = postgres(env.DATABASE_URL, { max: 1 });
 	const db = drizzle(connection);
 
 	try {
-		await migrate(db, { migrationsFolder: 'drizzle' });
+		await db.transaction(async (db) => {
+			await usersSeed(db);
+		});
 
-		logsAdapter.info(
-			'Success in generating migration',
-			'Migration completed successfully',
-		);
+		logsAdapter.info('Success in seeding', 'Seed completed successfully');
 
 		await connection.end();
 		process.exit(0);
@@ -29,4 +28,4 @@ const generateMigration = async () => {
 	}
 };
 
-generateMigration();
+runSeeds();
