@@ -25,6 +25,14 @@ const envSchema = z.object({
 		.min(1, { message: 'DATABASE_URL é obrigatória' })
 		.url({ message: 'DATABASE_URL deve ser uma URL válida' }),
 	BASIC_SEED: z.string().min(1, { message: 'BASIC_SEED é obrigatória' }),
+	AUTH_REDIRECT_URL: z
+		.string()
+		.min(1, { message: 'AUTH_REDIRECT_URL é obrigatória' })
+		.url({ message: 'AUTH_REDIRECT_URL deve ser uma URL válida' }),
+	API_BASE_URL: z
+		.string()
+		.min(1, { message: 'API_BASE_URL é obrigatória' })
+		.url({ message: 'API_BASE_URL deve ser uma URL válida' }),
 });
 
 const parsedEnv = envSchema.safeParse(process.env);

@@ -20,7 +20,7 @@ export class InMemoryRestaurantsRepository implements RestaurantsRepository {
 		return restaurants.map((restaurant) => new RestaurantEntity(restaurant));
 	}
 
-	async findRestaurantByName(name: string): Promise<RestaurantEntity> {
+	async findRestaurantByName(name: string): Promise<RestaurantEntity | null> {
 		const restaurant = this.restaurants.find(
 			(restaurant) => restaurant.name === name,
 		);

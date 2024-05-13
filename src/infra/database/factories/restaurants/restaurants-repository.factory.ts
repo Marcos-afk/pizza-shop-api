@@ -4,9 +4,9 @@ import { db } from '@infra/database/drizzle/connection';
 import { DrizzleRestaurantsRepository } from '@infra/database/drizzle/repositories/restaurants/drizzle-restaurants.repository';
 import { env } from 'src/env';
 
-let restaurantsRepositoryInstance: RestaurantsRepository = null;
+let restaurantsRepositoryInstance: RestaurantsRepository | null = null;
 
-export const UseRestaurantsRepository = () => {
+export const RestaurantsRepositoryFactory = () => {
 	if (!restaurantsRepositoryInstance) {
 		switch (env.NODE_ENV) {
 			case 'development':

@@ -1,12 +1,7 @@
 import { createId } from '@paralleldrive/cuid2';
-import {
-	PgEnumColumn,
-	pgEnum,
-	pgTable,
-	serial,
-	text,
-	timestamp,
-} from 'drizzle-orm/pg-core';
+import { relations } from 'drizzle-orm';
+import { pgEnum, pgTable, text, timestamp } from 'drizzle-orm/pg-core';
+import { AuthLinksSchema } from '../auth-links/auth-links.schema';
 
 export const UserRoleEnum = pgEnum('user_role', ['manager', 'user']);
 
@@ -22,3 +17,7 @@ export const UsersSchema = pgTable('users', {
 	created_at: timestamp('created_at').notNull().defaultNow(),
 	updated_at: timestamp('updated_at').notNull().defaultNow(),
 });
+
+export const usersRelations = relations(UsersSchema, ({ many }) => ({
+	codes: many(AuthLinksSchema),
+}));

@@ -1,7 +1,9 @@
 import Elysia, { t } from 'elysia';
-import { UseRestaurantsRepository } from './options';
 import type { FindRestaurantsDTO } from '@application/restaurants/dtos/find-restaurants.dto';
 import { FindRestaurantsUseCase } from '@application/restaurants/use-cases/find-restaurants/find-restaurants.use-case';
+import { RestaurantsRepositoryFactory } from '@infra/database/factories/restaurants/restaurants-repository.factory';
+
+const restaurantsRepository = RestaurantsRepositoryFactory();
 
 export const FindRestaurantsByManagerController = new Elysia().get(
 	'/restaurants',
@@ -9,7 +11,7 @@ export const FindRestaurantsByManagerController = new Elysia().get(
 		const { manager_id, name } = query as FindRestaurantsDTO;
 
 		const findRestaurantsUseCase = new FindRestaurantsUseCase(
-			UseRestaurantsRepository(),
+			restaurantsRepository,
 		);
 
 		const restaurants = await findRestaurantsUseCase.execute({

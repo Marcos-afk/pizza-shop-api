@@ -1,10 +1,10 @@
 import Elysia, { t } from 'elysia';
-import { UseRestaurantsRepository } from './options';
 import type { CreateRestaurantDTO } from '@application/restaurants/dtos/create-restaurant.dto';
 import { CreateRestaurantUseCase } from '@application/restaurants/use-cases/create-restaurant/create-restaurant.use-case';
 import { AppError } from '@common/errors/app.error';
+import { RestaurantsRepositoryFactory } from '@infra/database/factories/restaurants/restaurants-repository.factory';
 
-const useRestaurantsRepository = UseRestaurantsRepository();
+const restaurantsRepository = RestaurantsRepositoryFactory();
 
 export const CreateRestaurantController = new Elysia().post(
 	'/restaurants',
@@ -12,7 +12,7 @@ export const CreateRestaurantController = new Elysia().post(
 		const data = body as CreateRestaurantDTO;
 
 		const createRestaurantUseCase = new CreateRestaurantUseCase(
-			useRestaurantsRepository,
+			restaurantsRepository,
 		);
 
 		await createRestaurantUseCase.execute(data);
