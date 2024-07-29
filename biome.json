@@ -1,12 +1,16 @@
 {
 	"$schema": "https://biomejs.dev/schemas/1.6.4/schema.json",
 	"organizeImports": {
-		"enabled": true
-	},
+    "enabled": true
+  },
 	"linter": {
 		"enabled": true,
 		"rules": {
-			"recommended": true
+			"recommended": true,
+			"correctness": {
+				"noUnusedImports": "error",
+				"noUnusedVariables": "error"
+			}
 		}
 	},
 	"formatter": {
