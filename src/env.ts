@@ -33,6 +33,7 @@ const envSchema = z.object({
 		.string()
 		.min(1, { message: 'API_BASE_URL é obrigatória' })
 		.url({ message: 'API_BASE_URL deve ser uma URL válida' }),
+	JWT_SECRET: z.string().min(1, { message: 'JWT_SECRET é obrigatória' }),
 });
 
 const parsedEnv = envSchema.safeParse(process.env);

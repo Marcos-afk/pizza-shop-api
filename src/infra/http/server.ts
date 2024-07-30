@@ -1,10 +1,12 @@
 import { logsAdapter } from '@common/adapters/api-logs/logs.adapter';
-import swagger from '@elysiajs/swagger';
-import { Elysia } from 'elysia';
-import { env } from 'src/env';
-import { RestaurantsController } from './controllers/restaurants';
+import cookie from '@elysiajs/cookie';
 import cors from '@elysiajs/cors';
+import jwt from '@elysiajs/jwt';
+import swagger from '@elysiajs/swagger';
+import { Elysia, t } from 'elysia';
+import { env } from 'src/env';
 import { AuthController } from './controllers/auth';
+import { RestaurantsController } from './controllers/restaurants';
 
 const app = new Elysia()
 	.use(cors())
@@ -35,6 +37,17 @@ const app = new Elysia()
 			},
 		}),
 	)
+	.use(
+		jwt({
+			name: 'jwt',
+			secret: env.JWT_SECRET,
+			schema: t.Object({
+				sub: t.String(),
+				restaurant_id: t.Optional(t.String()),
+			}),
+		}),
+	)
+	.use(cookie())
 	.use(RestaurantsController)
 	.use(AuthController);
 
