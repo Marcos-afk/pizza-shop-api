@@ -1,6 +1,7 @@
 import type { CreateAuthLinkDTO } from '@application/auth-links/dtos/create-auth-link.dto';
 import { AuthLinkEntity } from '@application/auth-links/entities/auth-link.entity';
 import type { AuthLinksRepository } from '@application/auth-links/repositories/auth-links.repository';
+import { eq } from 'drizzle-orm';
 import type { db } from '../../connection';
 import { AuthLinksSchema } from '../../schemas';
 
@@ -37,5 +38,11 @@ export class DrizzleAuthLinksRepository implements AuthLinksRepository {
 			.returning();
 
 		return new AuthLinkEntity(authLink[0]);
+	}
+
+	async remove(id: string): Promise<void> {
+		await this.database
+			.delete(AuthLinksSchema)
+			.where(eq(AuthLinksSchema.id, id));
 	}
 }

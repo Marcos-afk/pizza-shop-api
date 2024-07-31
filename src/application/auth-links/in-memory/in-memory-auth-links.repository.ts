@@ -29,4 +29,10 @@ export class InMemoryAuthLinksRepository implements AuthLinksRepository {
 
 		return authLink;
 	}
+
+	async remove(id: string): Promise<void> {
+		const index = this.authLinks.findIndex((a) => a.id === id);
+
+		this.authLinks.splice(index, 1);
+	}
 }

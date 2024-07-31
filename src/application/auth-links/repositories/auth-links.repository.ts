@@ -10,4 +10,6 @@ export interface AuthLinksRepository {
 	findByCode(code: string): Promise<AuthLinkEntity | null>;
 
 	create(data: CreateAuthLinkDTO): Promise<AuthLinkEntity>;
+
+	remove(id: string): Promise<void>;
 }

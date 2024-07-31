@@ -1,10 +1,10 @@
 import type { CreateRestaurantDTO } from '@application/restaurants/dtos/create-restaurant.dto';
+import type { FindRestaurantsDTO } from '@application/restaurants/dtos/find-restaurants.dto';
 import { RestaurantEntity } from '@application/restaurants/entities/restaurant.entity';
 import type { RestaurantsRepository } from '@application/restaurants/repositories/restaurants.repository';
+import { eq, ilike } from 'drizzle-orm';
 import type { db } from '../../connection';
 import { RestaurantsSchema, UsersSchema } from '../../schemas';
-import { eq, ilike } from 'drizzle-orm';
-import type { FindRestaurantsDTO } from '@application/restaurants/dtos/find-restaurants.dto';
 
 export class DrizzleRestaurantsRepository implements RestaurantsRepository {
 	constructor(private readonly database: typeof db) {}
@@ -33,6 +33,19 @@ export class DrizzleRestaurantsRepository implements RestaurantsRepository {
 			.select()
 			.from(RestaurantsSchema)
 			.where(eq(RestaurantsSchema.name, name));
+
+		return restaurants.length && restaurants.length > 0
+			? new RestaurantEntity(restaurants[0])
+			: null;
+	}
+
+	async findRestaurantByManagerId(
+		manager_id: string,
+	): Promise<RestaurantEntity | null> {
+		const restaurants = await this.database
+			.select()
+			.from(RestaurantsSchema)
+			.where(eq(RestaurantsSchema.manager_id, manager_id));
 
 		return restaurants.length && restaurants.length > 0
 			? new RestaurantEntity(restaurants[0])
