@@ -21,6 +21,10 @@ export const auth = new Elysia()
 			},
 
 			findLoggedUser: () => {
+				if (!auth || !auth.value) {
+					throw new AppError('Acesso negado', 401);
+				}
+
 				const payload = verify(auth.value, env.JWT_SECRET) as {
 					sub: string;
 					restaurant_id?: string;
