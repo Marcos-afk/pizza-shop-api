@@ -28,6 +28,14 @@ export class InMemoryRestaurantsRepository implements RestaurantsRepository {
 		return restaurant ? new RestaurantEntity(restaurant) : null;
 	}
 
+	async findById(id: string): Promise<RestaurantEntity | null> {
+		const restaurant = this.restaurants.find(
+			(restaurant) => restaurant.id === id,
+		);
+
+		return restaurant ? new RestaurantEntity(restaurant) : null;
+	}
+
 	async findRestaurantByManagerId(
 		manager_id: string,
 	): Promise<RestaurantEntity | null> {

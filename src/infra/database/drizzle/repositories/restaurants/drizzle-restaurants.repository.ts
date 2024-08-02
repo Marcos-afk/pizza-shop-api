@@ -39,6 +39,17 @@ export class DrizzleRestaurantsRepository implements RestaurantsRepository {
 			: null;
 	}
 
+	async findById(id: string): Promise<RestaurantEntity | null> {
+		const restaurants = await this.database
+			.select()
+			.from(RestaurantsSchema)
+			.where(eq(RestaurantsSchema.id, id));
+
+		return restaurants.length && restaurants.length > 0
+			? new RestaurantEntity(restaurants[0])
+			: null;
+	}
+
 	async findRestaurantByManagerId(
 		manager_id: string,
 	): Promise<RestaurantEntity | null> {
