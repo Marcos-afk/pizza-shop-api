@@ -9,4 +9,10 @@ export class InMemoryUsersRepository implements UsersRepository {
 
 		return user ? new UserEntity(user) : null;
 	}
+
+	async findById(id: string): Promise<UserEntity | null> {
+		const user = this.users.find((user) => user.id === id);
+
+		return user ? new UserEntity(user) : null;
+	}
 }

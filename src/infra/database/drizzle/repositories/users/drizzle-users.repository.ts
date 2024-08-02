@@ -14,4 +14,14 @@ export class DrizzleUsersRepository implements UsersRepository {
 
 		return user ? new UserEntity(user) : null;
 	}
+
+	async findById(id: string): Promise<UserEntity | null> {
+		const user = await this.database.query.UsersSchema.findFirst({
+			where(fields, { eq }) {
+				return eq(fields.id, id);
+			},
+		});
+
+		return user ? new UserEntity(user) : null;
+	}
 }

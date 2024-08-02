@@ -5,6 +5,7 @@ import { Elysia } from 'elysia';
 import { env } from 'src/env';
 import { AuthController } from './controllers/auth';
 import { RestaurantsController } from './controllers/restaurants';
+import { UsersController } from './controllers/users';
 
 const app = new Elysia()
 	.use(cors())
@@ -31,12 +32,17 @@ const app = new Elysia()
 						name: 'Auth',
 						description: 'Endpoints related to authentication',
 					},
+					{
+						name: 'Users',
+						description: 'Endpoints related to users',
+					},
 				],
 			},
 		}),
 	)
 	.use(RestaurantsController)
-	.use(AuthController);
+	.use(AuthController)
+	.use(UsersController);
 
 app.listen(env.API_PORT as string, (callback) => {
 	logsAdapter.success('Server', `Server is running on ${callback.url}`);
