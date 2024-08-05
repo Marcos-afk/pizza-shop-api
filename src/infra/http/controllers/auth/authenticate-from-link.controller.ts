@@ -1,5 +1,4 @@
 import { AuthenticateFromLinkUseCase } from '@application/auth-links/use-cases/authenticate-from-link/authenticate-from-link.use-case';
-import { AppError } from '@common/errors/app.error';
 import { AuthLinksRepositoryFactory } from '@infra/database/factories/auth-links/auth-links-repository.factory';
 import { RestaurantsRepositoryFactory } from '@infra/database/factories/restaurants/restaurants-repository.factory';
 import { DateProviderFactory } from '@infra/providers/factories/date/date-provider.factory';
@@ -37,17 +36,6 @@ export const AuthenticateFromLinkController = new Elysia().get(
 		}),
 		detail: {
 			tags: ['Auth'],
-		},
-		error({ error, set }) {
-			if (error instanceof AppError) {
-				set.status = error.statusCode;
-				return {
-					status: error.statusCode,
-					message: error.message,
-				};
-			}
-
-			return error;
 		},
 	},
 );

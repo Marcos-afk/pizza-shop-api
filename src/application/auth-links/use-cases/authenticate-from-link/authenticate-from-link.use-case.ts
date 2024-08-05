@@ -1,7 +1,7 @@
 import type { AuthenticateFromLinkDTO } from '@application/auth-links/dtos/authenticate-from-link.dto';
 import type { AuthLinksRepository } from '@application/auth-links/repositories/auth-links.repository';
 import type { RestaurantsRepository } from '@application/restaurants/repositories/restaurants.repository';
-import { AppError } from '@common/errors/app.error';
+import { BadRequestError, NotFoundError } from '@common/errors/app.error';
 import type { DateProviderProps } from '@infra/providers/date/types/date.provider-props';
 import { sign } from 'jsonwebtoken';
 import { env } from 'src/env';
@@ -17,7 +17,7 @@ export class AuthenticateFromLinkUseCase {
 		const userCode = await this.authLinksRepository.findByCode(code);
 
 		if (!userCode) {
-			throw new AppError('Código não encontrado', 404);
+			throw new NotFoundError('Código não encontrado');
 		}
 
 		const daysSinceAuthLinkWasCreated = this.dateProvider.compareInDays(
@@ -26,7 +26,7 @@ export class AuthenticateFromLinkUseCase {
 		);
 
 		if (daysSinceAuthLinkWasCreated > 7) {
-			throw new AppError('Código expirado');
+			throw new BadRequestError('Código expirado');
 		}
 
 		const restaurant =

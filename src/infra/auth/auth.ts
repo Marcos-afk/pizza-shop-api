@@ -1,4 +1,4 @@
-import { AppError } from '@common/errors/app.error';
+import { UnauthorizedError } from '@common/errors/app.error';
 import jwt from '@elysiajs/jwt';
 import Elysia, { t } from 'elysia';
 import { verify } from 'jsonwebtoken';
@@ -22,7 +22,7 @@ export const auth = new Elysia()
 
 			findLoggedUser: () => {
 				if (!auth || !auth.value) {
-					throw new AppError('Acesso negado', 401);
+					throw new UnauthorizedError('Acesso negado');
 				}
 
 				const payload = verify(auth.value, env.JWT_SECRET) as {
@@ -31,7 +31,7 @@ export const auth = new Elysia()
 				};
 
 				if (!payload) {
-					throw new AppError('Acesso negado', 401);
+					throw new UnauthorizedError('Acesso negado');
 				}
 
 				return {

@@ -1,5 +1,5 @@
 import { FindRestaurantByIdUseCase } from '@application/restaurants/use-cases/find-restaurant-by-id/find-restaurant-by-id.use-case';
-import { AppError } from '@common/errors/app.error';
+import { NotFoundError } from '@common/errors/app.error';
 import { auth } from '@infra/auth/auth';
 import { RestaurantsRepositoryFactory } from '@infra/database/factories/restaurants/restaurants-repository.factory';
 import Elysia from 'elysia';
@@ -11,7 +11,7 @@ export const FindManagedRestaurantController = new Elysia().use(auth).get(
 	async ({ findLoggedUser, set }) => {
 		const { restaurant_id } = findLoggedUser();
 		if (!restaurant_id) {
-			throw new AppError('ID do restaurante não encontrado');
+			throw new NotFoundError('ID do restaurante não encontrado');
 		}
 
 		const findRestaurantByIdUseCase = new FindRestaurantByIdUseCase(
@@ -29,17 +29,6 @@ export const FindManagedRestaurantController = new Elysia().use(auth).get(
 	{
 		detail: {
 			tags: ['Restaurants'],
-		},
-		error({ error, set }) {
-			if (error instanceof AppError) {
-				set.status = error.statusCode;
-				return {
-					status: error.statusCode,
-					message: error.message,
-				};
-			}
-
-			return error;
 		},
 	},
 );

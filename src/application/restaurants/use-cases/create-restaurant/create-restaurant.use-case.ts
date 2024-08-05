@@ -1,7 +1,6 @@
 import type { CreateRestaurantDTO } from '@application/restaurants/dtos/create-restaurant.dto';
 import type { RestaurantsRepository } from '@application/restaurants/repositories/restaurants.repository';
-import { AppError } from '@common/errors/app.error';
-
+import { BadRequestError } from '@common/errors/app.error';
 export class CreateRestaurantUseCase {
 	constructor(private readonly restaurantRepository: RestaurantsRepository) {}
 
@@ -10,7 +9,7 @@ export class CreateRestaurantUseCase {
 			await this.restaurantRepository.findRestaurantByName(name);
 
 		if (isExistRestaurant) {
-			throw new AppError('Já existe um restaurante com esse nome');
+			throw new BadRequestError('Já existe um restaurante com esse nome');
 		}
 
 		const restaurant = await this.restaurantRepository.create({

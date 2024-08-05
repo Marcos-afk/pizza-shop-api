@@ -1,4 +1,9 @@
 import { logsAdapter } from '@common/adapters/api-logs/logs.adapter';
+import {
+	BadRequestError,
+	NotFoundError,
+	UnauthorizedError,
+} from '@common/errors/app.error';
 import cors from '@elysiajs/cors';
 import swagger from '@elysiajs/swagger';
 import { Elysia } from 'elysia';
@@ -8,6 +13,38 @@ import { RestaurantsController } from './controllers/restaurants';
 import { UsersController } from './controllers/users';
 
 const app = new Elysia()
+	.error({
+		UNAUTHORIZED: UnauthorizedError,
+		BAD_REQUEST: BadRequestError,
+		NOT_FOUND: NotFoundError,
+	})
+	.onError(({ code, error, set }) => {
+		switch (code) {
+			case 'UNAUTHORIZED': {
+				set.status = 401;
+				return { code, message: error.message };
+			}
+			case 'VALIDATION': {
+				set.status = error.status;
+
+				return error.toResponse();
+			}
+			case 'NOT_FOUND': {
+				set.status = 404;
+				return { code, message: error.message };
+			}
+			case 'BAD_REQUEST': {
+				set.status = 400;
+				return { code, message: error.message };
+			}
+			default: {
+				return {
+					code: 'INTERNAL_SERVER_ERROR',
+					message: 'Ocorreu um erro não mapeado',
+				};
+			}
+		}
+	})
 	.use(cors())
 	.use(
 		swagger({

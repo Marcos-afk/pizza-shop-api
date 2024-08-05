@@ -1,6 +1,6 @@
 import type { AuthLinksRepository } from '@application/auth-links/repositories/auth-links.repository';
 import type { UsersRepository } from '@application/users/repositories/users.repository';
-import { AppError } from '@common/errors/app.error';
+import { NotFoundError } from '@common/errors/app.error';
 import { createId } from '@paralleldrive/cuid2';
 import { env } from 'src/env';
 
@@ -24,7 +24,7 @@ export class CreateAuthLinkUseCase {
 	async execute(email: string) {
 		const user = await this.usersRepository.findByEmail(email);
 		if (!user) {
-			throw new AppError('Usuário não encontrado', 404);
+			throw new NotFoundError('Usuário não encontrado');
 		}
 
 		const { code } = await this.authLinksRepository.create({

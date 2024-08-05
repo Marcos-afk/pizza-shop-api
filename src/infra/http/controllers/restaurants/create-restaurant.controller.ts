@@ -1,8 +1,7 @@
-import Elysia, { t } from 'elysia';
 import type { CreateRestaurantDTO } from '@application/restaurants/dtos/create-restaurant.dto';
 import { CreateRestaurantUseCase } from '@application/restaurants/use-cases/create-restaurant/create-restaurant.use-case';
-import { AppError } from '@common/errors/app.error';
 import { RestaurantsRepositoryFactory } from '@infra/database/factories/restaurants/restaurants-repository.factory';
+import Elysia, { t } from 'elysia';
 
 const restaurantsRepository = RestaurantsRepositoryFactory();
 
@@ -53,17 +52,6 @@ export const CreateRestaurantController = new Elysia().post(
 		}),
 		detail: {
 			tags: ['Restaurants'],
-		},
-		error({ error, set }) {
-			if (error instanceof AppError) {
-				set.status = error.statusCode;
-				return {
-					status: error.statusCode,
-					message: error.message,
-				};
-			}
-
-			return error;
 		},
 	},
 );

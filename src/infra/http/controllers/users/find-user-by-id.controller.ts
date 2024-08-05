@@ -1,5 +1,4 @@
 import { FindUserByIdUseCase } from '@application/users/use-cases/find-user-by-id/find-user-by-id.use-case';
-import { AppError } from '@common/errors/app.error';
 import { auth } from '@infra/auth/auth';
 import { UsersRepositoryFactory } from '@infra/database/factories/users/users-repository.factory';
 import Elysia from 'elysia';
@@ -20,17 +19,6 @@ export const FindLoggedUserProfileController = new Elysia().use(auth).get(
 		return { user };
 	},
 	{
-		error({ error, set }) {
-			if (error instanceof AppError) {
-				set.status = error.statusCode;
-				return {
-					status: error.statusCode,
-					message: error.message,
-				};
-			}
-
-			return error;
-		},
 		detail: { tags: ['Users'] },
 	},
 );

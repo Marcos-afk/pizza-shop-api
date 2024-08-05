@@ -1,9 +1,5 @@
-export class AppError {
-	public readonly message: string;
-	public readonly statusCode: number;
+export class BadRequestError extends Error {}
 
-	constructor(message: string, statusCode = 400) {
-		this.message = message;
-		this.statusCode = statusCode;
-	}
-}
+export class NotFoundError extends Error {}
+
+export class UnauthorizedError extends Error {}
