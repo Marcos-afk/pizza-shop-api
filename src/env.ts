@@ -34,6 +34,15 @@ const envSchema = z.object({
 		.min(1, { message: 'API_BASE_URL é obrigatória' })
 		.url({ message: 'API_BASE_URL deve ser uma URL válida' }),
 	JWT_SECRET: z.string().min(1, { message: 'JWT_SECRET é obrigatória' }),
+	MAIL_SENDER_EMAIL: z
+		.string()
+		.email({ message: 'MAIL_SENDER_EMAIL é obrigatório' }),
+	MAIL_SENDER_NAME: z.string().min(1, {
+		message: 'MAIL_SENDER_NAME é obrigatório',
+	}),
+	RESEND_MAIL_KEY: z.string().min(1, {
+		message: 'RESEND_MAIL_KEY é obrigatória',
+	}),
 });
 
 const parsedEnv = envSchema.safeParse(process.env);

@@ -1,8 +1,9 @@
 import { DateProvider } from '@infra/providers/date/date.provider';
 import { FakeDateProvider } from '@infra/providers/date/fake-date.provider';
+import type { DateProviderProps } from '@infra/providers/date/types/date.provider-props';
 import { env } from 'src/env';
 
-let dateProviderInstance: DateProvider | null = null;
+let dateProviderInstance: DateProviderProps | null = null;
 
 export const DateProviderFactory = () => {
 	if (!dateProviderInstance) {

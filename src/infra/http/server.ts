@@ -40,7 +40,7 @@ const app = new Elysia()
 			default: {
 				return {
 					code: 'INTERNAL_SERVER_ERROR',
-					message: 'Ocorreu um erro não mapeado',
+					message: error.message,
 				};
 			}
 		}

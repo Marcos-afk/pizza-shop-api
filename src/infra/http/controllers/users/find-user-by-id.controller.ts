@@ -8,7 +8,7 @@ const usersRepository = UsersRepositoryFactory();
 export const FindLoggedUserProfileController = new Elysia().use(auth).get(
 	'/users/profile',
 	async ({ findLoggedUser, set }) => {
-		const { user_id } = findLoggedUser();
+		const { user_id } = await findLoggedUser();
 
 		const findUserByIdUseCase = new FindUserByIdUseCase(usersRepository);
 

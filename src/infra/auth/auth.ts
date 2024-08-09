@@ -1,8 +1,11 @@
 import { UnauthorizedError } from '@common/errors/app.error';
 import jwt from '@elysiajs/jwt';
+import { UsersRepositoryFactory } from '@infra/database/factories/users/users-repository.factory';
 import Elysia, { t } from 'elysia';
 import { verify } from 'jsonwebtoken';
 import { env } from 'src/env';
+
+const usersRepository = UsersRepositoryFactory();
 
 export const auth = new Elysia()
 	.use(
@@ -20,7 +23,7 @@ export const auth = new Elysia()
 				auth.remove();
 			},
 
-			findLoggedUser: () => {
+			findLoggedUser: async () => {
 				if (!auth || !auth.value) {
 					throw new UnauthorizedError('Acesso negado');
 				}
@@ -30,7 +33,12 @@ export const auth = new Elysia()
 					restaurant_id?: string;
 				};
 
-				if (!payload) {
+				if (!payload || !payload.sub) {
+					throw new UnauthorizedError('Acesso negado');
+				}
+
+				const user = await usersRepository.findById(payload.sub);
+				if (!user) {
 					throw new UnauthorizedError('Acesso negado');
 				}
 

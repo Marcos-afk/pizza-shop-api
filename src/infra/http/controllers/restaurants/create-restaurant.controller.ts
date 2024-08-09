@@ -1,13 +1,21 @@
 import type { CreateRestaurantDTO } from '@application/restaurants/dtos/create-restaurant.dto';
 import { CreateRestaurantUseCase } from '@application/restaurants/use-cases/create-restaurant/create-restaurant.use-case';
+import { UnauthorizedError } from '@common/errors/app.error';
+import { auth } from '@infra/auth/auth';
 import { RestaurantsRepositoryFactory } from '@infra/database/factories/restaurants/restaurants-repository.factory';
 import Elysia, { t } from 'elysia';
 
 const restaurantsRepository = RestaurantsRepositoryFactory();
 
-export const CreateRestaurantController = new Elysia().post(
+export const CreateRestaurantController = new Elysia().use(auth).post(
 	'/restaurants',
-	async ({ body, set }) => {
+	async ({ findLoggedUser, body, set }) => {
+		const { user_id } = await findLoggedUser();
+
+		if (!user_id) {
+			throw new UnauthorizedError('Acesso negado');
+		}
+
 		const data = body as CreateRestaurantDTO;
 
 		const createRestaurantUseCase = new CreateRestaurantUseCase(
