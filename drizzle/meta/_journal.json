@@ -29,6 +29,13 @@
       "when": 1715572845355,
       "tag": "0003_broken_thundra",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1724160745232,
+      "tag": "0004_nosy_secret_warriors",
+      "breakpoints": true
     }
   ]
 }

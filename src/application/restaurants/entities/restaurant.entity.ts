@@ -8,7 +8,7 @@ export class RestaurantEntity {
 	created_at: Date;
 	updated_at: Date;
 
-	constructor(props: RestaurantEntity) {
-		Object.assign(this, props);
+	constructor(partial: Partial<RestaurantEntity>) {
+		Object.assign(this, partial);
 	}
 }
